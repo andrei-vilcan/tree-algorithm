@@ -1,0 +1,47 @@
+"""
+An efficient and concise algorithm to find the location of the next node to be inserted into a binary tree in Python-like pseudocode.
+"""
+
+
+def locate(v):
+    if v.parent is None:
+        return v.left
+    elif v.parent.left == v:
+        return v.parent.right
+    else:
+        return v.parent.locate().left
+
+"""
+Best Case Running Time:
+
+For a heap with k items, the best-case running time is O(1). This can occur in one of three ways:
+1. k = 1
+    In this case, the algorithm only performs one check, which is to see whether the input node v has no
+    parent. It will pass this comparison and return v.left.
+2. k is even.
+    In other words, k > 1 and the input node v is the left child of its parent node. In this case, the algorithm
+    will only perform two checks. The first of which is whether v does not have a parent, which it does. The
+    second is if v is the left child of its parent node, which it is. The program will return v.parent.right.
+3. k = 3 and the node v is the right child of its parent node.
+    In this case, the program only makes two comparisons. The first is whether v does not have a parent,
+    which it does, and the second is if v is the left node of its parents. Since it is the right node, v.parent.left
+    is returned.
+    
+In both of these cases, the running time is O(1). There is no other input that will take less time than these
+three inputs shown above. The reason for this is that the only possibility remaining is if v is the right child of
+its parent, and there are more than 3 nodes. The running time of this will be explained in the next sub-section.
+
+Worst Case Running Time:
+
+The worst-case running time for the algorithm is Θ(log k). This running time will occur if the node v is the
+right child of its parent, and k > 3. This is the worst case running time as in this situation, the number of
+comparisons that must be made is proportional to the height of the tree. More specifically, the worst-case
+occurs when v is the right most element in the tree. In this situation, the algorithm must perform 2h + 1
+comparisons, where h is the height of the tree. The height of the tree is a function of the size, calculated by
+the formula h = log k.
+Thus, the worst case running time is Θ(log k).
+There are no other inputs that will have as high of a running time. This is because all of the other inputs are
+either best-case, or by not being the right most node of the whole tree, are the right most node of a smaller
+subtree. In this case, the time complexity is not calculated using the height of the whole tree, but the height
+of the respective subtree, which will have a height less than h.
+"""
